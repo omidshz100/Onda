@@ -44,5 +44,4 @@ jobs:
             -only-testing:OndaTests \
             -only-testing:OndaUITests/OndaUITests/testPrimaryNavigationFlow \
             -only-testing:OndaUITests/OndaUITests/testSecondaryNavigationDestinations \
-            test \
-            CODE_SIGNING_ALLOWED=NO
+            test
