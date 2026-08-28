@@ -3,7 +3,7 @@ import Foundation
 struct AppEnvironment {
     let meetingRepository: any MeetingRepository
 
-    static let live: AppEnvironment = {
+    @MainActor static let live: AppEnvironment = {
         let sessionConfiguration = URLSessionConfiguration.default
         sessionConfiguration.timeoutIntervalForRequest = 3
         sessionConfiguration.requestCachePolicy = .reloadRevalidatingCacheData
