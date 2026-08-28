@@ -111,6 +111,58 @@ final class OndaUITests: XCTestCase {
     }
 
     @MainActor
+    func testCaptureRepositoryScreenshots() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        XCTAssertTrue(app.tabBars.buttons["Home"].waitForExistence(timeout: 3))
+        captureScreenshot(named: "01-home", app: app)
+
+        app.buttons["New meeting"].tap()
+        XCTAssertTrue(app.navigationBars["New meeting"].waitForExistence(timeout: 2))
+        captureScreenshot(named: "02-new-meeting", app: app)
+
+        let startMeeting = app.buttons["Start meeting"]
+        if !startMeeting.isHittable {
+            app.scrollViews.firstMatch.swipeUp()
+        }
+        startMeeting.tap()
+        XCTAssertTrue(app.buttons["Participants"].waitForExistence(timeout: 3))
+        captureScreenshot(named: "03-live-meeting", app: app)
+
+        app.buttons["Participants"].tap()
+        XCTAssertTrue(app.navigationBars["Participants"].waitForExistence(timeout: 2))
+        captureScreenshot(named: "04-participants", app: app)
+        app.navigationBars.buttons.firstMatch.tap()
+
+        app.buttons["Meeting chat"].tap()
+        XCTAssertTrue(app.staticTexts["Meeting chat"].waitForExistence(timeout: 2))
+        captureScreenshot(named: "05-meeting-chat", app: app)
+        app.navigationBars.buttons.firstMatch.tap()
+        app.buttons["End call"].tap()
+        app.navigationBars.buttons.firstMatch.tap()
+
+        app.tabBars.buttons["Calls"].tap()
+        XCTAssertTrue(app.staticTexts["Calls"].waitForExistence(timeout: 2))
+        captureScreenshot(named: "06-calls", app: app)
+
+        app.tabBars.buttons["Chat"].tap()
+        XCTAssertTrue(app.staticTexts["Chat"].waitForExistence(timeout: 2))
+        captureScreenshot(named: "07-chat-list", app: app)
+
+        app.tabBars.buttons["You"].tap()
+        XCTAssertTrue(app.navigationBars["Profile"].waitForExistence(timeout: 2))
+        captureScreenshot(named: "08-profile", app: app)
+    }
+
+    private func captureScreenshot(named name: String, app: XCUIApplication) {
+        let attachment = XCTAttachment(screenshot: app.screenshot())
+        attachment.name = name
+        attachment.lifetime = .keepAlways
+        add(attachment)
+    }
+
+    @MainActor
     func testLaunchPerformance() throws {
         // This measures how long it takes to launch your application.
         measure(metrics: [XCTApplicationLaunchMetric()]) {

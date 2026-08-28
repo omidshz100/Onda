@@ -66,7 +66,9 @@ struct LiveMeetingView: View {
             .navigationDestination(isPresented: $isShowingMeetingChat) {
                 MeetingChatView(meeting: meeting)
             }
-            .preferredColorScheme(.dark)
+            .preferredColorScheme(
+                isShowingParticipants || isShowingMeetingChat ? .light : .dark
+            )
             .statusBarHidden(false)
         }
     }
